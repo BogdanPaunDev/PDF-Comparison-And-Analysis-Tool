@@ -1,5 +1,5 @@
 import pymupdf
-import pypdf
+from pypdf import PdfReader
 import hashlib
 from difflib import SequenceMatcher
 import os
@@ -10,6 +10,8 @@ PDF2_PATH = '/Users/paunbogdan/PycharmProjects/Projects/Portofolio/PDF Compariso
 class PDFComparisonTool:
 
     def __init__(self, pdf1, pdf2):
+        self.pages_pdf2 = None
+        self.pages_pdf1 = None
         self.pdf1 = pdf1
         self.pdf2 = pdf2
         print("""\nPDF Comparison Report
@@ -17,8 +19,6 @@ class PDFComparisonTool:
         """)
 
     def file_match(self):
-        pdf1 = pypdf.PdfReader(self.pdf1)
-        pdf2 = pypdf.PdfReader(self.pdf2)
 
         # We get the file name with the os module
         pdf1_name = os.path.basename(PDF1_PATH)
@@ -58,7 +58,42 @@ class PDFComparisonTool:
         msg1, msg2 = hash1.hexdigest(), hash2.hexdigest()
         return msg1, msg2
 
+    def document_summary(self):
+        print("""\nDocument Summary
+----------------""")
+
+        # Reading both pdf files
+        reader1 = PdfReader(self.pdf1)
+        reader2 = PdfReader(self.pdf2)
+
+        # Getting the number of pages in each pdf file
+        pages_pdf1 = len(reader1.pages)
+        self.pages_pdf1 = pages_pdf1
+
+        pages_pdf2 = len(reader2.pages)
+        self.pages_pdf2 = pages_pdf2
+
+        print(f"Pages in file A: {pages_pdf1}")
+        print(f"Pages in file B: {pages_pdf2}")
+
+        # Get the similarity of the two PDF's
+
+        pdf1_text = self.extract_all_text_from_pdf(reader1)
+        pdf2_text = self.extract_all_text_from_pdf(reader2)
+
+        overall_similarity = SequenceMatcher(None, pdf1_text, pdf2_text)
+        print(f"Overall text similarity: {overall_similarity.ratio() * 100:.2f}%")
+
+    @staticmethod
+    def extract_all_text_from_pdf(pdf):
+        text = ""
+        for page in range(len(pdf.pages)):
+            text += pdf.pages[page].extract_text()
+
+        return text
+
 
 pdf_comparison_tool = PDFComparisonTool(PDF1_PATH, PDF2_PATH)
 
 pdf_comparison_tool.file_match()
+pdf_comparison_tool.document_summary()
