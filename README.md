@@ -1,80 +1,47 @@
 # PDF Comparison & Document Analysis Tool
 
-A Python command-line tool that compares two PDF files and determines whether they are identical at the file level.
+A Python command-line tool for comparing two PDF files and analyzing how similar they are.
 
-## Milestone 1 — File Comparison
+The current version performs both an exact file comparison and an overall text similarity comparison.
 
-The first milestone focuses on comparing two PDF files using **SHA-1 hashing**.
+## Features
 
-The program:
-
-* Accepts two PDF files
-* Displays their filenames
-* Reads both files in binary mode
-* Generates a SHA-1 hash for each file
-* Compares the hashes
-* Determines whether the files are exactly identical
+- Compare two PDF files
+- Display both filenames
+- Generate SHA-1 hashes for each file
+- Detect whether the files are exactly identical
+- Count the number of pages in each PDF
+- Extract text from all pages
+- Calculate overall text similarity using `SequenceMatcher`
+- Display a simple comparison report in the terminal
 
 ## Technologies Used
 
-* Python
-* `pypdf`
-* `hashlib`
-* `os`
+- Python
+- `pypdf`
+- `hashlib`
+- `difflib.SequenceMatcher`
+- `os`
 
 ## How It Works
 
-Each PDF file is read in binary chunks and passed through Python's `hashlib.sha1()` hashing algorithm.
+### Exact File Comparison
+
+Each PDF file is read in binary mode and processed using SHA-1 hashing.
 
 The generated hashes act as digital fingerprints for the files.
 
-If both hashes are equal, the PDF files contain exactly the same binary data.
+If both hashes are equal, the files are exactly identical.
 
-If the hashes are different, the files are not identical.
+If the hashes are different, the files are not exact copies.
 
-## Usage
+### Document Summary
 
-Set the paths of the two PDF files inside the program:
+The program reads both PDF files using `PdfReader` and determines the number of pages in each document, while also returning the overall text similarity between the extracted text of both PDF files.
 
-```python
-PDF1_PATH = "pdf1.pdf"
-PDF2_PATH = "pdf2.pdf"
-```
-
-Run the program:
-
-```bash
-python main.py
-```
-
-The comparison result will be displayed in the terminal.
-
-## Example Output
+Example:
 
 ```text
-PDF Comparison Report
-=====================
-
-File A: pdf1.pdf
-File B: pdf2.pdf
-
-Files are identical: False
-```
-
-## What I Learned
-
-During this milestone, I practiced:
-
-* Reading files in binary mode
-* Processing files in chunks
-* Working with SHA-1 hashes
-* Comparing file fingerprints
-* Using Python classes and methods
-* Working with file paths and filenames
-* Breaking a larger project into smaller implementation milestones
-
-## Project Status
-
-**Milestone 1 completed:** exact PDF file comparison using hashing.
-
-Further document analysis functionality will be added in future milestones.
+Pages in File A: 5
+Pages in File B: 6
+Overall text similarity: 89.37%
