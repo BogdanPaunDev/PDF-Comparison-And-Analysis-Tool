@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+pdf_compare/__init__.py
+pdf_compare/main.py
+pdf_comparison_tool.egg-info/PKG-INFO
+pdf_comparison_tool.egg-info/SOURCES.txt
+pdf_comparison_tool.egg-info/dependency_links.txt
+pdf_comparison_tool.egg-info/entry_points.txt
+pdf_comparison_tool.egg-info/requires.txt
+pdf_comparison_tool.egg-info/top_level.txt
